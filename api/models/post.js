@@ -18,7 +18,11 @@ const postSchema = mongoose.Schema({
     rating:{
             emote:{type:String},
             total:{type:Number,default:0},
-            ratecount:{type:Number,default:0}
+            ratecount:{type:Number,default:0},
+            users:[{
+                name:{type:String},
+                score:{type:Number}
+            }]
         },   
     available:{type:String,default:true},
     forSale:{

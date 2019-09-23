@@ -10,13 +10,13 @@ const User = require('../models/user');
 
 
 //getting all comments details
-router.get('/getcomment',(req,res,next)=>{
-    Post.findOne({"_id":req.body.p_id})
+router.get('/getcomment/:pid',(req,res,next)=>{
+    Post.findOne({"_id":req.params.pid},"comments")
         .sort({'comments.time':-1})
         .limit(4)
         .exec()
         .then(result=>{
-            console.log(result);
+            //console.log(result);
             return res.json({
                 found:true,
                 comments: result.comments 

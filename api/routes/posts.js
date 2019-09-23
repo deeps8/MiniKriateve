@@ -54,7 +54,7 @@ router.get('/:category/:division',(req,res,next)=>{
         .sort({'time':-1})
         .exec()
         .then(result=>{
-            result = result.sort((a,b)=> (b.rating.total - a.rating.total)&&(b.rating.ratecount - a.rating.ratecount));            
+            result = result.sort((a,b)=> (b.rating.total - a.rating.total)&&(b.rating.ratecount - a.rating.ratecount));     
             return res.json({
                 posts: result 
             });
@@ -88,6 +88,26 @@ router.post('/auser',(req,res,next)=>{
             });
         });
 });
+
+//retrieving comments 
+router.get('/comments/:pid',(req,res,next)=>{
+    Post.find({"_id":req.params.pid})
+        .sort({'time':-1})
+        .exec()
+        .then(result=>{
+            return res.json({
+
+                comments: result 
+            });
+        })
+        .catch(err=>{
+            console.log(err);
+            return res.json({
+                error: err
+            });
+        });
+});
+
 
 //adding posts
 router.post('/add',checkAuth,upload.array('postMedia[]',5),(req,res,next)=>{
@@ -149,21 +169,62 @@ router.post('/add',checkAuth,upload.array('postMedia[]',5),(req,res,next)=>{
 
 
 //ratting the post by any user(non auth too)
-//we will add user "whorated" (ONLY FOR CONTESTS) it if not then it go by "anonymus user" 
-router.post('/rateit',(req,res,next)=>{
-    Post.findByIdAndUpdate({"_id":req.body.p_id},{$set:{rating:req.body.rate}}).exec()
-        .then(result=>{
-                    res.json({
-                        message:true,
-                        newrate:req.body.rate
-                    });
-        })
-        .catch(err=>{
-            res.json({
-                message:false,
-                error:err
-            });
+//data to be give : {pid,rtotal,rate}
+router.post('/rateit',checkAuth,(req,res,next)=>{
+
+    var Ruser={
+        name:req.UserData.username,
+        score:req.body.rate
+    };
+    var totalscore;
+    var flag=0;
+    //find the post to rate and check for if user already rated it.
+    //use traditional way 
+    Post.findById(req.body.p_id,function(err,doc){
+                for(var i in doc.rating.users){
+                    if(doc.rating.users[i].name === req.UserData.username){
+                        doc.rating.total=doc.rating.total  - doc.rating.users[i].score ;
+                        doc.rating.total=doc.rating.total + parseInt(req.body.rate);
+                        doc.rating.users[i].score=req.body.rate;
+                        flag=1;
+                    }
+                    
+                }
+                if(flag==0){
+                    doc.rating.users.push(Ruser);
+                    doc.rating.total=req.body.rtotal;
+                    doc.rating.ratecount++;
+                }
+                totalscore=doc.rating.total;
+                doc.save();
+    }).exec()
+    .then(result=>{
+        res.json({
+            message:true,
+            output:{total:totalscore,Ruser}
         });
+    })
+    .catch(err=>{
+        res.json({
+            message:false,
+            error:err
+        });
+    });
+
+
+    // Post.findByIdAndUpdate({"_id":req.body.p_id},{$set:{rating:req.body.rate}}).exec()
+    //     .then(result=>{
+    //                 res.json({
+    //                     message:true,
+    //                     newrate:req.body.rate
+    //                 });
+    //     })
+    //     .catch(err=>{
+    //         res.json({
+    //             message:false,
+    //             error:err
+    //         });
+    //     });
 });
 
 //deleting the all values
