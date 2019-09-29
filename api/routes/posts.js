@@ -211,20 +211,6 @@ router.post('/rateit',checkAuth,(req,res,next)=>{
         });
     });
 
-
-    // Post.findByIdAndUpdate({"_id":req.body.p_id},{$set:{rating:req.body.rate}}).exec()
-    //     .then(result=>{
-    //                 res.json({
-    //                     message:true,
-    //                     newrate:req.body.rate
-    //                 });
-    //     })
-    //     .catch(err=>{
-    //         res.json({
-    //             message:false,
-    //             error:err
-    //         });
-    //     });
 });
 
 //deleting the all values

@@ -126,39 +126,23 @@ router.post('/add',checkAuth,(req,res,next)=>{
         
 });
 
+//Check for user already submmitted. 
+router.post('/entry/add/checklist',checkAuth,(req,res,next)=>{
+              Contest.count({con_id:req.body.conid,"submissions.participant.name":req.UserData.username}).exec()
+              .then(result=>{
+                    return res.json({
+                        length:result
+                    })
+              })
+              .catch(err=>{
+                    return res.json({
+                        message:"Error : "+err
+                    })
+              });
+});
+
 //submitting entery
-router.post('/entry/add',checkAuth,(req,res,next)=>{
-    var flag=1;
-    console.log(req.body);
-    Contest.findOne({con_id:req.body.conid},"submissions -_id").exec()
-        .then(result=>{
-            
-            result.submissions.forEach(el => {
-                if(el.participant.name == req.UserData.username){
-                    flag=0;
-                    console.log("IN for in if "+flag);
-                }
-            });
-            console.log("outside for "+flag);
-
-            if(flag==1){
-                next();
-            }
-            return res.json({
-                message:"already done",
-                error: err
-            });
-        })
-        .catch(err =>{
-            console.log("in checkentry Contest not found");
-
-            return res.json({
-                message:"Contest not found",
-                error: err
-            });
-        });
-
-    }, upload.array('entrymedia[]',3),  (req,res,next)=>{ 
+router.post('/entry/add',checkAuth,upload.array('entrymedia[]',2),(req,res,next)=>{ 
     var filepath=[];
       if(req.files.length === 0)
          {   
