@@ -2,6 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
+
 
 const app = express();
 
@@ -12,7 +14,7 @@ const catdivRoutes = require('./api/routes/catdiv');
 const contestRoutes = require('./api/routes/contest');
 
 //connect to mongodb
-mongoose.connect('mongodb+srv://deepak:sydniv@123@kriateve-hafwc.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true });
+mongoose.connect('mongodb+srv://deepak:sydniv@123@kriateve-hafwc.mongodb.net/test?retryWrites=true&w=majority',{ useMongoClient: true });
 
 
 //on connection
@@ -45,7 +47,11 @@ app.use('/posts',postRoutes);
 app.use('/comreply',commRoutes);
 app.use('/catdiv',catdivRoutes);
 app.use('/contests',contestRoutes);
-app.use('/uploads',express.static('uploads'));
+app.use('/uploads',express.static(path.join(__dirname, 'kriateve/dist'),'uploads'));
+
+app.get("*",(req,res)=>{
+    res.sendFile(path.join(__dirname,'kriateve/dist/index.html'));
+})
 
 app.use((req,res,next)=>{
     const error = new Error('Not Found');
