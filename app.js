@@ -14,7 +14,7 @@ const catdivRoutes = require('./api/routes/catdiv');
 const contestRoutes = require('./api/routes/contest');
 
 //connect to mongodb
-mongoose.connect('mongodb+srv://deepak:sydniv@123@kriateve-hafwc.mongodb.net/test?retryWrites=true&w=majority',{ useMongoClient: true });
+mongoose.connect('mongodb+srv://deepak:sydniv@123@kriateve-hafwc.mongodb.net/test?retryWrites=true&w=majority',{useNewUrlParser:true});
 
 
 //on connection
@@ -31,6 +31,12 @@ mongoose.connection.off('error',(err)=>{
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
+app.use(express.static(path.join(__dirname, 'kriateve/dist/kriateve')));
+
+app.get("*",(req,res)=>{
+    res.sendFile(path.join(__dirname,'kriateve/dist/kriateve/index.html'));
+})
+
 
 app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin",'*');  
@@ -47,11 +53,7 @@ app.use('/posts',postRoutes);
 app.use('/comreply',commRoutes);
 app.use('/catdiv',catdivRoutes);
 app.use('/contests',contestRoutes);
-app.use('/uploads',express.static(path.join(__dirname, 'kriateve/dist/kriateve'),'uploads'));
-
-app.get("*",(req,res)=>{
-    res.sendFile(path.join(__dirname,'kriateve/dist/kriateve/index.html'));
-})
+app.use('/uploads',express.static('uploads'));
 
 app.use((req,res,next)=>{
     const error = new Error('Not Found');
