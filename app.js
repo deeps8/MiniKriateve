@@ -12,7 +12,7 @@ const catdivRoutes = require('./api/routes/catdiv');
 const contestRoutes = require('./api/routes/contest');
 
 //connect to mongodb
-mongoose.connect('mongodb://localhost:27017/kriateveDemo',{ useNewUrlParser: true });
+mongoose.connect('mongodb+srv://deepak:sydniv@123@kriateve-hafwc.mongodb.net/test?retryWrites=true&w=majority',{ useNewUrlParser: true });
 
 
 //on connection
