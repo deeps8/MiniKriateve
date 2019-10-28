@@ -106,6 +106,11 @@ router.post('/signup',upload.single('userProfile'),(req,res,next)=>{
                 });
             }else{
                 User.find({username: req.body.username}).exec().then(user=>{
+                    if(req.body.username==="you"){
+                        return res.json({
+                            message: 'Username exists'
+                        });
+                    }
                     if(user.length>=1){
                         return res.json({
                             message: 'Username exists'
@@ -156,6 +161,31 @@ router.post('/signup',upload.single('userProfile'),(req,res,next)=>{
 
 router.get('/getauser',checkAuth,(req,res,next)=>{
     User.findOne( {_id: req.UserData.userId}).exec()
+        .then(result=>{
+            const user = new User({
+                _id: result._id,
+                email: result.email,
+                username: result.username,
+                profimg: result.profimg
+                });   
+        
+        res.json({
+            message:"User Found",
+            user: result
+            });
+        })
+        .catch(err=>{
+            res.json({
+                message:"User Not Found",
+                error: err
+            });
+        });
+});
+
+
+//get any userdata
+router.get('/getauser/:uname',(req,res,next)=>{
+    User.findOne( {username: req.params.uname}).exec()
         .then(result=>{
             const user = new User({
                 _id: result._id,

@@ -25,6 +25,24 @@ const storage = multer.diskStorage({
 const upload = multer({storage: storage});
 
 
+//getting a single post details
+router.get('/one/:pid',(req,res,next)=>{
+    Post.findById(req.params.pid)
+        .exec()
+        .then(result=>{
+            return res.json({
+                message:true,
+                post: result 
+            });
+        })
+        .catch(err=>{
+            console.log(err);
+            return res.json({
+                error: err,
+                message:false,
+            });
+        });
+});
 
 //getting all posts details
 router.get('/all/:category/:filter',(req,res,next)=>{
@@ -150,11 +168,12 @@ router.post('/add',checkAuth,upload.array('postMedia[]',5),(req,res,next)=>{
             User.findByIdAndUpdate({"_id":req.UserData.userId},{$inc:{posts:1}}).exec()
                 .then(up=>{
                     res.json({
-                        message: "Post Created",
+                        message: "Created",
                         post:result
                     })
                     .catch(er =>{
                         res.json({
+                            message:"Something went wrong",
                             error: er
                         });
                     });    
