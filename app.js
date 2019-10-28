@@ -47,10 +47,10 @@ app.use('/posts',postRoutes);
 app.use('/comreply',commRoutes);
 app.use('/catdiv',catdivRoutes);
 app.use('/contests',contestRoutes);
-app.use('/uploads',express.static(path.join(__dirname, 'kriateve/dist'),'uploads'));
+app.use('/uploads',express.static(path.join(__dirname, 'kriateve/dist/kriateve'),'uploads'));
 
 app.get("*",(req,res)=>{
-    res.sendFile(path.join(__dirname,'kriateve/dist/index.html'));
+    res.sendFile(path.join(__dirname,'kriateve/dist/kriateve/index.html'));
 })
 
 app.use((req,res,next)=>{
