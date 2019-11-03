@@ -29,7 +29,7 @@ router.get('/category/:name',(req,res,next)=>{
     Category.findOne({name:req.params.name})
         .exec()
         .then(result=>{
-            //console.log(result);
+            console.log(result);
             return res.json({
                 category: result 
             });

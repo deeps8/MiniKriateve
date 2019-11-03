@@ -4,7 +4,6 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 
-
 const app = express();
 
 const userRoutes = require('./api/routes/users');
@@ -12,6 +11,8 @@ const postRoutes = require('./api/routes/posts');
 const commRoutes = require('./api/routes/commreply');
 const catdivRoutes = require('./api/routes/catdiv');
 const contestRoutes = require('./api/routes/contest');
+
+const port = process.env.PORT || 8080;
 
 //connect to mongodb
 mongoose.connect('mongodb+srv://deepak:sydniv@123@kriateve-hafwc.mongodb.net/test?retryWrites=true&w=majority',{useNewUrlParser:true});
@@ -24,19 +25,13 @@ mongoose.connection.on('connected',()=>{
 
 //on error
 mongoose.connection.off('error',(err)=>{
-    console.log('Error connecting MongoDb at port 27017 : ' + err);
+    console.log('Error connecting MongoDb at port  : ' + err);
 });
 
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, 'kriateve/dist/kriateve')));
-
-app.get("*",(req,res)=>{
-    res.sendFile(path.join(__dirname,'kriateve/dist/kriateve/index.html'));
-})
-
 
 app.use((req,res,next)=>{
     res.header("Access-Control-Allow-Origin",'*');  
@@ -55,11 +50,17 @@ app.use('/catdiv',catdivRoutes);
 app.use('/contests',contestRoutes);
 app.use('/uploads',express.static('uploads'));
 
-app.use((req,res,next)=>{
-    const error = new Error('Not Found');
-    error.status= 404;
-    next(error);
+app.use(express.static(path.join(__dirname,'public')));
+
+app.get('*',(req,res)=>{
+    res.sendFile(path.join(__dirname,'public/index.html'));
 });
+
+// app.use((req,res,next)=>{
+//     return res.json({
+//         message:"Not found in routes"
+//     })
+// });
 
 app.use((err,req,res,next)=>{
     res.status(err.status || 500);
@@ -69,5 +70,10 @@ app.use((err,req,res,next)=>{
         }
     });
 });
+
+app.listen(port,()=>{
+    console.log("server has started at port : "+port);
+});
+
 
 module.exports = app;
