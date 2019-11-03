@@ -762,12 +762,12 @@ if(false) {}
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\MiniProject\kriateve\node_modules\quill\dist\quill.snow.css */"./node_modules/quill/dist/quill.snow.css");
-__webpack_require__(/*! E:\MiniProject\kriateve\src\styles.css */"./src/styles.css");
-__webpack_require__(/*! E:\MiniProject\kriateve\node_modules\@angular\material\prebuilt-themes\indigo-pink.css */"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css");
-__webpack_require__(/*! E:\MiniProject\kriateve\node_modules\bootstrap\dist\css\bootstrap.css */"./node_modules/bootstrap/dist/css/bootstrap.css");
-__webpack_require__(/*! E:\MiniProject\kriateve\node_modules\owl.carousel\dist\assets\owl.carousel.min.css */"./node_modules/owl.carousel/dist/assets/owl.carousel.min.css");
-module.exports = __webpack_require__(/*! E:\MiniProject\kriateve\node_modules\owl.carousel\dist\assets\owl.theme.default.min.css */"./node_modules/owl.carousel/dist/assets/owl.theme.default.min.css");
+__webpack_require__(/*! E:\project\kriateve\node_modules\quill\dist\quill.snow.css */"./node_modules/quill/dist/quill.snow.css");
+__webpack_require__(/*! E:\project\kriateve\src\styles.css */"./src/styles.css");
+__webpack_require__(/*! E:\project\kriateve\node_modules\@angular\material\prebuilt-themes\indigo-pink.css */"./node_modules/@angular/material/prebuilt-themes/indigo-pink.css");
+__webpack_require__(/*! E:\project\kriateve\node_modules\bootstrap\dist\css\bootstrap.css */"./node_modules/bootstrap/dist/css/bootstrap.css");
+__webpack_require__(/*! E:\project\kriateve\node_modules\owl.carousel\dist\assets\owl.carousel.min.css */"./node_modules/owl.carousel/dist/assets/owl.carousel.min.css");
+module.exports = __webpack_require__(/*! E:\project\kriateve\node_modules\owl.carousel\dist\assets\owl.theme.default.min.css */"./node_modules/owl.carousel/dist/assets/owl.theme.default.min.css");
 
 
 /***/ })

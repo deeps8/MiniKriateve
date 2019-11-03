@@ -71,9 +71,9 @@ app.use((err,req,res,next)=>{
     });
 });
 
-app.listen(port,()=>{
-    console.log("server has started at port : "+port);
-});
+app.listen(process.env.PORT || 8080, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+  });
 
 
 module.exports = app;

@@ -8773,12 +8773,11 @@ var CatdivService = /** @class */ (function () {
     function CatdivService(router, http) {
         this.router = router;
         this.http = http;
-        this.catdivURL = "http://localhost:8080/catdiv/category/";
+        this.catdivURL = "catdiv/category/";
     }
     CatdivService.prototype.getDivisionService = function (name) {
         var header = new _angular_http__WEBPACK_IMPORTED_MODULE_3__["Headers"]();
         header.append('Content-Type', 'application/json');
-        header.append('Response-Type', 'text');
         var options = new _angular_http__WEBPACK_IMPORTED_MODULE_3__["RequestOptions"]({ headers: header });
         return this.http.get(this.catdivURL + name, options).pipe(Object(rxjs_operators__WEBPACK_IMPORTED_MODULE_2__["map"])(function (res) { return res.json(); }));
     };
@@ -9847,7 +9846,7 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! E:\MiniProject\kriateve\src\main.ts */"./src/main.ts");
+module.exports = __webpack_require__(/*! E:\project\kriateve\src\main.ts */"./src/main.ts");
 
 
 /***/ })
