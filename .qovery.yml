@@ -1,0 +1,11 @@
+---
+application:
+  name: "minikriateve"
+  project: "mini-kriateve"
+  organization: "QoveryCommunity"
+routers:
+- name: "main-minikriateve"
+  routes:
+  - application_name: "minikriateve"
+    paths:
+    - "/*"
